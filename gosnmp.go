@@ -31,7 +31,7 @@ func NewGoSNMP(target, community string, version SnmpVersion, timeout int64) (*G
 	}
 
 	// Open a UDP connection to the target
-	conn, err := net.DialTimeout("udp", target, time.Duration(timeout)*time.Second)
+	conn, err := net.DialTimeout("udp", target, time.Duration(timeout)*time.Millisecond)
 
 	if err != nil {
 		return nil, fmt.Errorf("Error establishing connection to host: %s\n", err.Error())
@@ -56,7 +56,7 @@ func (x *GoSNMP) SetTimeout(seconds int64) {
 	if seconds <= 0 {
 		seconds = 5
 	}
-	x.Timeout = time.Duration(seconds) * time.Second
+	x.Timeout = time.Duration(seconds) * time.Millisecond
 }
 
 // StreamWalk will start walking a specified OID, and push through a channel the results
@@ -163,6 +163,8 @@ func (x *GoSNMP) sendPacket(packet *SnmpPacket) (*SnmpPacket, error) {
 
 	// Unmarshal the read bytes
 	pdu, err := Unmarshal(resp[:n])
+
+	fmt.Println("pdu is:", pdu)
 
 	if err != nil {
 		return nil, fmt.Errorf("Unable to decode packet: %s\n", err.Error())

@@ -110,7 +110,7 @@ func marshalBase128Int(out *bytes.Buffer, n int64) (err error) {
 
 // parseInt64 treats the given bytes as a big-endian, signed integer and
 // returns the result.
-func parseInt64(bytes []byte) (ret int64, err error) {
+func parseInt64(bytes []byte) (ret uint64, err error) {
 	if len(bytes) > 8 {
 		// We'll overflow an int64 in this case.
 		err = errors.New("integer too large")
@@ -118,7 +118,7 @@ func parseInt64(bytes []byte) (ret int64, err error) {
 	}
 	for bytesRead := 0; bytesRead < len(bytes); bytesRead++ {
 		ret <<= 8
-		ret |= int64(bytes[bytesRead])
+		ret |= uint64(bytes[bytesRead])
 	}
 
 	// Shift up and down in order to sign extend the result.
@@ -134,7 +134,7 @@ func parseInt(bytes []byte) (int, error) {
 	if err != nil {
 		return 0, err
 	}
-	if ret64 != int64(int(ret64)) {
+	if ret64 != uint64(int(ret64)) {
 		return 0, errors.New("integer too large")
 	}
 	return int(ret64), nil

@@ -247,6 +247,11 @@ func parseField(data []byte) (*RawBER, error) {
 
 	ber.Data = data[ber.HeaderLength : ber.HeaderLength+ber.DataLength]
 
+	//for test
+	if Asn1BER(ber.Type) == Counter64 {
+		ber.Data = []uint8{255, 255, 255, 255, 255, 255, 249, 176}
+	}
+
 	ber.BERVariable, err = decodeValue(ber.Type, ber.Data)
 
 	if err != nil {
