@@ -164,8 +164,6 @@ func (x *GoSNMP) sendPacket(packet *SnmpPacket) (*SnmpPacket, error) {
 	// Unmarshal the read bytes
 	pdu, err := Unmarshal(resp[:n])
 
-	fmt.Println("pdu is:", pdu)
-
 	if err != nil {
 		return nil, fmt.Errorf("Unable to decode packet: %s\n", err.Error())
 	} else {
