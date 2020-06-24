@@ -1,4 +1,4 @@
-module github.com/gaochao1/gosnmp
+module github.com/zliang90/gosnmp
 
 go 1.13
 
