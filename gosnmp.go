@@ -6,10 +6,11 @@ package gosnmp
 
 import (
 	"fmt"
-	l "github.com/alouca/gologger"
 	"net"
 	"strings"
 	"time"
+
+	l "github.com/alouca/gologger"
 )
 
 type GoSNMP struct {
@@ -178,8 +179,7 @@ func (x *GoSNMP) sendPacket(packet *SnmpPacket) (*SnmpPacket, error) {
 }
 
 // Sends an SNMP Get Next Request to the target. Returns the next variable response from the OID given or an error
-func (x *GoSNMP) GetNext(oid string) (*SnmpPacket, error) {
-	var err error
+func (x *GoSNMP) GetNext(oid string) (p *SnmpPacket, err error) {
 	defer func() {
 		if e := recover(); e != nil {
 			err = fmt.Errorf("%v", e)
@@ -210,8 +210,7 @@ func (x *GoSNMP) Debug(data []byte) (*SnmpPacket, error) {
 }
 
 // Sends an SNMP BULK-GET request to the target. Returns a Variable with the response or an error
-func (x *GoSNMP) GetBulk(non_repeaters, max_repetitions uint8, oids ...string) (*SnmpPacket, error) {
-	var err error
+func (x *GoSNMP) GetBulk(non_repeaters, max_repetitions uint8, oids ...string) (p *SnmpPacket, err error) {
 	defer func() {
 		if e := recover(); e != nil {
 			err = fmt.Errorf("%v", e)
@@ -236,8 +235,7 @@ func (x *GoSNMP) GetBulk(non_repeaters, max_repetitions uint8, oids ...string) (
 }
 
 // Sends an SNMP GET request to the target. Returns a Variable with the response or an error
-func (x *GoSNMP) Get(oid string) (*SnmpPacket, error) {
-	var err error
+func (x *GoSNMP) Get(oid string) (p *SnmpPacket, err error) {
 	defer func() {
 		if e := recover(); e != nil {
 			err = fmt.Errorf("%v", e)
@@ -258,8 +256,7 @@ func (x *GoSNMP) Get(oid string) (*SnmpPacket, error) {
 }
 
 // Sends an SNMP GET request to the target. Returns a Variable with the response or an error
-func (x *GoSNMP) GetMulti(oids []string) (*SnmpPacket, error) {
-	var err error
+func (x *GoSNMP) GetMulti(oids []string) (p *SnmpPacket, err error) {
 	defer func() {
 		if e := recover(); e != nil {
 			err = fmt.Errorf("%v", e)
